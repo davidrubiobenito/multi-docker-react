@@ -15,7 +15,7 @@ after_success:
     - docker build -t davidrubiobenito/multi-docker-nginx-react ./nginx
     - docker build -t davidrubiobenito/multi-docker-server-react ./server
     - docker build -t davidrubiobenito/multi-docker-worker-react ./worker
-    # Login Docker CLI
+    # Login Docker CLItdin
     - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
     # Take those images and push them to docker hub
     - docker push davidrubiobenito/multi-docker-frontend-react
