@@ -1,0 +1,24 @@
+language: generic
+sudo: required
+
+services:
+    - docker
+
+before_install:
+    - docker build -t davidrubiobenito/multi-docker-react-test -f ./frontend/Dockerfile.dev ./frontend
+
+script:
+    - docker run -e CI=true davidrubiobenito/multi-docker-react-test npm run test -- --coverage
+
+after_success:
+    - docker build -t davidrubiobenito/multi-docker-frontend-react ./frontend
+    - docker build -t davidrubiobenito/multi-docker-nginx-react ./nginx
+    - docker build -t davidrubiobenito/multi-docker-server-react ./server
+    - docker build -t davidrubiobenito/multi-docker-worker-react ./worker
+    # Login Docker CLI
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+    # Take those images and push them to docker hub
+    - docker push davidrubiobenito/multi-docker-frontend-react
+    - docker push davidrubiobenito/multi-docker-nginx-react
+    - docker push davidrubiobenito/multi-docker-server-react
+    - docker push davidrubiobenito/multi-docker-worker-react
