@@ -1,0 +1,41 @@
+{
+    "AWSEBDockerrunVerision": 2,
+    "conteinerDefinitions": [
+        {
+            "name": "frontend",
+            "image": "davidrubiobenito/multi-docker-frontend-react",
+            "hostname": "frontend",
+            "essential": false,
+            "memory": 128
+        },
+        {
+            "name": "server",
+            "image": "davidrubiobenito/multi-docker-server-react",
+            "hostname": "api",
+            "essential": false,
+            "memory": 128
+        },
+        {
+            "name": "worker",
+            "image": "davidrubiobenito/multi-docker-worker-react",
+            "hostname": "worker",
+            "essential": false,
+            "memory": 128
+        },
+        {
+            "name": "nginx",
+            "image": "davidrubiobenito/multi-docker-nginx-react",
+            "hostname": "nginx",
+            "essential": true,
+            "portMappings": [
+                {
+                    "hostPort" : 80,
+                    "containerPort": 80
+                }
+            ],
+            "links": ["frontend", "server"],
+            "memory": 128
+        } 
+
+    ]
+}
